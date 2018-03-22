@@ -1,0 +1,299 @@
+%%%%%%%%%% DOCUMENT STUFF %%%%%%%%%%
+
+\documentclass[10pt,letterpaper]{article}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{datetime}
+\usepackage{setspace}
+\usepackage{tkz-graph}
+\usepackage[margin=1in]{geometry}
+\usepackage{courier}
+\usepackage{listings}
+\usepackage{mips}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{enumitem}
+\usepackage{colortbl}
+
+%%%%%%%%%% FORMATTING %%%%%%%%%%
+
+\newdate{date}{1}{05}{2017}
+\spacing{1.5}
+\date{\displaydate{date}}
+\setcounter{secnumdepth}{0}
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\lstset{language=[mips]Assembler}
+\graphicspath{{images/}}
+
+%%%%%%%%%% CONTENT %%%%%%%%%%
+
+%%%%% COVER PAGE %%%%%
+
+\begin{document}
+\title{CS M151B: Homework 4}
+\author{
+	Jonathan Woong\\
+	804205763\\
+	Spring 2017\\
+	Discussion 1A}
+\maketitle
+\pagebreak
+
+%%%%% PROBLEM 1 %%%%%
+
+\section{Problem 1}
+Compilers can have a profound impact on the performance of an application. Assume that for a program, compiler A results in a dynamic instruction count of 1.0E9 and has an execution time of 1.1 s, while compiler B results in a dynamic instruction count of 1.2E9 and an execution time of 1.5 s.
+\begin{enumerate}[label=\alph*.]
+\item Find the average CPI for each program given that the processor has a clock cycle of 1 ns.
+\[1 \text{ ns } = 1.0 \times 10^{-9} \text{ s}\]
+\[\text{execution time} = \text{instruction count} \times \text{CPI} \times \text{T}_{\text{cycle}}\]
+\[\text{CPI} = \frac{\text{execution time}}{\text{instruction count}\times \text{T}_{cycle}}\]
+\[\text{CPI}_A = \frac{1.1}{(1\times10^9)(1\times10^{-9})}=\boxed{1.1}\]
+\[\text{CPI}_B = \frac{1.5}{(1.2\times10^9)(1\times10^{-9})}=\boxed{1.25}\]
+\item Assume the compiled program runs on two different processors. If the execution times on the two processors are the same, how much faster is the clock of the processor running compiler A's code versus the clock of the processor running on compiler B's code?
+\[n = \frac{\text{instruction count}_B}{\text{instruction count}_A} = \frac{1.2\times10^9}{1.0\times10^9}=1.2 \rightarrow \boxed{20\% \text{ faster}}\]
+\item A new compiler is developed that uses only 6.0E8 instructions and has an average CPI of 1.1. What is the speedup of using this new compiler versus using compiler A or B on the original processor?
+\[\text{execution time}_C = (6.0\times10^8)(1.1)(1\times10^{-9}) = 0.66\]
+\[\text{speedup}_A = \frac{\text{execution time}_A}{\text{execution time}_C} = \frac{1.1}{0.66} = 1.67 \rightarrow \boxed{67\% \text{ speedup}}\]
+\[\text{speedup}_B = \frac{\text{execution time}_B}{\text{execution time}_C} = \frac{1.5}{0.66} = 2.27 \rightarrow \boxed{127\% \text{ speedup}}\]
+\end{enumerate}
+\pagebreak
+
+%%%%% PROBLEM 2 %%%%%
+
+\section{Problem 2}
+Consider the performance of a processor with a clock frequency of 2.4GHz on a suite of benchmarks. Two different sets of measurements are made: A) the programs are compiled by a compiler, and B) the programs are written in assembly by a highly-skilled programmer. The highly-skilled programmer manages to get a reduction of a factor of 2.3 in the CPI and a performance improvement of a factor of 9.7 compared to the compiled programs. What is the reduction in instruction count obtained by the highly-skilled programmer?
+\begin{equation*}\begin{split}
+9.7 & = \frac{\text{performance}_B}{\text{performance}_A} \\
+& = \frac{\text{execution time}_A}{\text{execution time}_B} \\
+& = \frac{\text{instruction count}_A \times \text{CPI}_A \times \text{T}_{\text{cycle}}}{\text{instruction count}_B \times \text{CPI}_B \times \text{T}_{\text{cycle}}} \\
+& = \frac{\text{instruction count}_A}{\text{instruction count}_B \times 2.3} \\
+\boxed{22.31} &= \frac{\text{instruction count}_A}{\text{instruction count}_B}
+\end{split}\end{equation*}
+
+%%%%% PROBLEM 3 %%%%%
+
+\section{Problem 3}
+When a processor executes a program $P_A$, the execution time is 3.8 seconds and the CPI is 2.9. When the same processor executes program $P_B$, the execution time is 8.5 seconds and the CPI is 3.7. A typical workload consists of executing $P_A$, then executing $P_B$. What is the CPI for this typical workload?
+\[\text{execution time} = \text{instruction count} \times \text{CPI} \times \text{T}_{\text{cycle}}\]
+\[\text{instruction count} = \frac{\text{execution time}}{\text{CPI}\times\text{T}_{\text{cycle}}}\]
+\[\text{instruction count}_A = \frac{3.8}{2.9\times\text{T}_{\text{cycle}}} = \frac{1.31}{\text{T}_{\text{cycle}}}\]
+\[\text{instruction count}_B = \frac{8.5}{3.7\times\text{T}_{\text{cycle}}} = \frac{2.30}{\text{T}_{\text{cycle}}}\]
+\[\text{instruction count}_A + \text{instruction count}_B = \frac{3.61}{\text{T}_{\text{cycle}}}\]
+\[\text{execution time}_A + \text{execution time}_B = 3.8 + 8.5 = 12.3 \text{ s}\]
+\[\text{CPI}_{A+B} = \frac{\text{execution time}_{A+B}}{\text{instruction count}_{A+B}\times \text{T}_{cycle}} = \frac{12.3}{\frac{3.61}{\text{T}_{\text{cycle}}}\times \text{T}_{cycle}} = \frac{12.3}{3.61} = \boxed{3.41}\]
+\pagebreak
+
+%%%%% PROBLEM 4 %%%%% 
+
+\section{Problem 4}
+Consider a processor that achieves an overall average CPI of 3.6 when executing a program P1. 23\% of the instructions of P1 perform floating point operations. For these floating point instructions, the average CPI is 5. By improving the design of the floating point ALU, the average CPI for floating point instructions is reduced from 5 to 3.
+\begin{enumerate}[label=\Alph*)]
+\item What is the overall average CPI for the improved processor?\\
+Let $F = $ float, $NF = $ non-float, $I = $ improved, $NI = $ non-improved
+\begin{equation*}\begin{split}
+\text{CPI}_{NI} & = (0.77)\text{CPI}_{NF} + (0.23)\text{CPI}_F \\
+3.6 &= (0.77)\text{CPI}_{NF} + (0.23)(5) = (0.77)\text{CPI}_{NF} + 1.15 \\
+2.45 & = (0.77)\text{CPI}_{NF} \\
+\text{CPI}_{NF} &= 3.18 \\
+\text{CPI}_I &= (0.77)\text{CPI}_{NF} + (0.23)\text{CPI}_F \\
+&= 2.45 + (0.23)(3) \\
+\text{CPI}_I &= \boxed{3.14}
+\end{split}\end{equation*}
+\item If the original processor executed P1 in 190 seconds, how long will it take the improved processor to execute P1?
+\begin{equation*}\begin{split}
+\text{execution time}_{NI} &= \text{instruction count} \times \text{CPI}_{NI} \times \text{T}_{\text{cycle}} \\
+190 &= \text{instruction count} \times 3.6 \times \text{T}_{\text{cycle}} \\
+52.78 &= \text{instruction count} \times \text{T}_{\text{cycle}} \\
+\text{execution time}_{I} &= \text{instruction count} \times \text{CPI}_I \times \text{T}_{\text{cycle}} \\
+&= (3.14)(52.78) \\
+&= \boxed{165.72} \\
+\end{split}\end{equation*}
+\end{enumerate}
+\pagebreak
+
+%%%%% PROBLEM 5 %%%%%
+
+\section{Problem 5}
+Consider the multicycle MIPS implementation from chapter 5, 3rd Ed, (Figure 5.28). Assume that the processor executes a long sequence of consecutive \texttt{lw} instructions or a long sequence of consecutive \texttt{sw} instructions. For each of these cases we would like to use pipelining to reduce the CPI by 1. The approach is to fetch the next instruction (instruction fetch step in Figure 5.30) during the execution of the previous instruction.
+\begin{enumerate}[label=\Alph*)]
+\item Explain the basic idea of your modifications in 2-4 clear sentences.
+I add another ALU (with inputs PC and 4) that will increment the PC by 4 when ALUSrcA is 1, ALUSrcB is 10, and ALUOp is 00 (memory address computation stage). If the previous \texttt{lw} or \texttt{sw} is in the memory address computation stage, the PC will increment by 4 and become an input to the MUX controlled by ALUSrcA. Since ALUSrcA must be 1 for the memory address computation stage, the incremented PC will be passed into the MUX controlled by PCSource signal. When the previous instruction is computing memory address, we simply need to set MemRead = 1, IorD = 0, IRWrite = 1, PCWrite = 1, and PCSource = 00 to fetch the next instruction. When ALUSrcA is 0, the current implementation behaves as if no changes were made.  
+\item Show the necessary modifications to the datapath. If modifications are required, show the entire modified datapath (Figure 5.28 modified as necessary). If you need to modify any of the datapath building blocks, draw the modified building blocks and explain the modifications.
+\[\scalebox{0.5}{\includegraphics{images/hw4-5.pdf}}\]
+\item Are any new control signals required? If so, list them with an explanation and identify them on the datapath diagram.\\
+No new control signals are required
+\item Modify the control unit state diagram (Figure 5.37) to reflect the changes.
+\[\scalebox{0.50}{\includegraphics{images/hw4-5-2.png}}\]
+To visualize the execution flow, see tables below:
+\begin{center}
+\begin{tabular} { |c|c|c|c|c|c|c|c|c|c|c|c| }
+\hline
+Instruction & CC 1 & CC 2 & CC 3 & CC 4 & CC 5 & CC 6 & CC 7 & CC 8 \\
+\hline
+\texttt{lw} & IF & ID & EXE & MA & WB & & & \\
+\hline
+\texttt{lw} & & & IF & ID & & EXE & MA & WB \\
+\hline
+\end{tabular}
+\end{center}
+Two instructions completed in 8 cycles = 4 instructions per cycle.
+\begin{center}
+\begin{tabular} { |c|c|c|c|c|c|c|c|c|c|c|c| }
+\hline
+Instruction & CC 1 & CC 2 & CC 3 & CC 4 & CC 5 & CC 6 \\
+\hline
+\texttt{sw} & IF & ID & EXE & MA & & \\
+\hline
+\texttt{sw} & & & IF & ID & EXE & MA \\
+\hline
+\end{tabular}
+\end{center}
+Two instructions completed in 6 cycles = 3 instructions per cycle.
+\end{enumerate}
+
+\pagebreak
+
+%%%%% PROBLEM 6 %%%%%
+
+\section{Problem 6}
+What is the total latency of an LW instruction in a pipelined and non-pipelined processor?\\
+800 ps for both. Pipelining does not affect latency, it only affects throughput.\\
+If asking about average latency for pipelined processor with many LW instructions, 200 ps.
+
+%%%%% PROBLEM 7 %%%%%
+
+\section{Problem 7}
+If we can split one stage of the pipelined datapath into two new stages, each with half the latency of the original stage, which stage would you split and what is the new clock cycle time of the processor?\\
+Split the memory access stage into two, the new clock cycle time will be 400 ps.
+
+%%%%% PROBLEM 8 %%%%%
+
+\section{Problem 8}
+Refer to the following sequence of instructions:
+\begin{lstlisting}
+i1: or 	r1, r2, r3
+i2: or 	r2, r1, r4
+i3: or 	r1, r1, r2
+\end{lstlisting}
+For each depdendence indicate:
+\begin{itemize}
+\item Which instruction is dependent on (must be executed after) which instruction. For this purpose, label the instructions within each of the program segments: i1, i2, i3.
+\item What is the type of depdendence: RAW, WAR, WAW
+\item What is the storage location (for example, the register number) through which there is the dependence
+\end{itemize}
+i2 depends on i1 (RAW) r1 \\
+i3 depends on i1 (RAW, WAW) r1 \\
+i3 depends on i2 (RAW) r2
+
+%%%%% PROBLEM 9 %%%%%
+
+\section{Problem 9}
+Assume there is no forwarding in this pipelined processor. Indicate hazards and add \texttt{nop} instructions to eliminate them.
+\begin{center}\begin{tabular} { |c|c|c|c|c|c|c|c| }
+\hline
+Instruction & CC 1 & CC 2 & CC 3 & CC 4 & CC 5 & CC 6 & CC 7 \\
+\hline
+\texttt{i1: or r1,r2,r3} & IF & ID & EXE & MA & WB & & \\
+\hline
+\texttt{i2: or r2,r1,r4} & & IF & \cellcolor{blue!25}ID & EXE & MA & WB & \\
+\hline
+\texttt{i3: or r1,r1,r2} & & & IF & \cellcolor{blue!25}ID & EXE & MA & WB \\
+\hline
+\end{tabular}\end{center}
+The cells colored above are where hazards occur.\\
+For i2: the r1 operand that is required has not yet been updated by i1.\\
+For i3: the r2 operand that is required has not yet been updated by i2.
+\begin{center}
+\resizebox{\columnwidth}{!}{
+\begin{tabular} { |c|c|c|c|c|c|c|c|c|c|c|c|c|c| }
+\hline
+Instruction & CC 1 & CC 2 & CC 3 & CC 4 & CC 5 & CC 6 & CC 7 & CC 8 & CC 9& CC 10 & CC 11 & CC 12 & CC 13\\
+\hline
+\texttt{i1: or r1,r2,r3} & IF & ID & EXE & MA & \cellcolor{blue!25}WB & & & & & & & &\\
+\hline
+\texttt{i2: or r2,r1,r4} & & IF & ID & \texttt{nop} & \texttt{nop} & \texttt{nop} & & & & & & &\\
+\hline
+& & & IF & ID & \texttt{nop} & \texttt{nop} & \texttt{nop} & & & & & &\\
+\hline
+& & & & IF & \cellcolor{blue!25}ID & EXE & MA & \cellcolor{blue!25}WB & & & & &\\
+\hline
+\texttt{i3: or r1,r1,r2} & & & &&  IF & ID & \texttt{nop} & \texttt{nop} & \texttt{nop} & & &  &\\
+\hline
+& & & & & & IF & ID & \texttt{nop} & \texttt{nop} & \texttt{nop} & & &\\
+\hline
+& & & & & & & IF & \cellcolor{blue!25}ID & EXE & MA & WB & &\\
+\hline
+\end{tabular}
+}
+\end{center}
+The WB for the instructions above occur during the first half of the cycle, and the ID for the instructions occur during the second half of the cycle.
+
+%%%%% PROBLEM 10 %%%%%
+
+\section{Problem 10}
+Assume there is full forwarding. Indicate hazards and add \texttt{NOP}  instructions to eliminate them.
+\begin{center}\begin{tabular} { |c|c|c|c|c|c|c|c|c|c| }
+\hline
+Instruction & CC 1 & CC 2 & CC 3 & CC 4 & CC 5 & CC 6 & CC 7 & CC 8 & CC 9\\
+\hline
+\texttt{i1: or r1,r2,r3} & IF & ID & EXE & MA & WB & & & & \\
+\hline
+\texttt{i2: or r2,r1,r4} & & IF & ID & \texttt{NOP} & \texttt{NOP} & \texttt{NOP} & & & \\
+\hline
+& & & IF & ID & EXE & MA & WB & & \\
+\hline
+\texttt{i3: or r1,r1,r2} & & & & IF & ID & \texttt{NOP} & \texttt{NOP} & \texttt{NOP} & \\
+\hline
+& & & & & IF & ID & EXE & MA & WB \\
+\hline
+\end{tabular}\end{center}
+\pagebreak
+
+%%%%% PROBLEM 11 %%%%%
+
+\section{Problem 11}
+Consider the pipelined MIPS implementation shown in Figure 4.51 (pade 304). For each of the following two instructions separately, for each of the pipeline stages, specify the values of the control signals that are asserted for the instruction, when the instruction reaches that stage.
+\begin{enumerate}[label=\alph*.]
+\item \texttt{sw\tab\$14,44(\$3)}
+\begin{center}
+\begin{tabular} { |c|c|c|c|c|c|c|c|c| }
+\hline
+Stage & RegDst & RegWrite & ALUOp & ALUSrc & PCSrc & MemRead & MemWrite & MemtoReg \\
+\hline
+IF & 0 & 0 & 00 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+ID & 0 & 0 & 00 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+EXE & 0 & 0 & 00 & 1 & 0 & 0 & 0 & 0 \\
+\hline
+MA & 0 & 0 & 00 & 0 & 0 & 0 & 1 & 0 \\
+\hline
+WB & 0 & 0 & 00 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+\item \texttt{sub\tab\$21,\$9,\$2}
+\begin{center}
+\begin{tabular} { |c|c|c|c|c|c|c|c|c| }
+\hline
+Stage & RegDst & RegWrite & ALUOp & ALUSrc & PCSrc & MemRead & MemWrite & MemtoReg \\
+\hline
+IF & 0 & 0 & 00 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+ID & 0 & 0 & 00 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+EXE & 0 & 0 & 10 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+MA & 0 & 0 & 00 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+WB & 0 & 1 & 00 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+\end{enumerate}
+
+\end{document}
